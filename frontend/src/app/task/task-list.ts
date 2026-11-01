@@ -2,10 +2,11 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TaskApi } from './task-api';
 import { TaskItem, TaskPriority } from './task.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './task-list.html',
 })
 export class TaskList implements OnInit {

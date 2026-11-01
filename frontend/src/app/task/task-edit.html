@@ -1,0 +1,52 @@
+<h2>Edit task</h2>
+
+@if (loading()) {
+  <p>Loading…</p>
+} @else {
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <label>
+      Title
+      <input formControlName="title" />
+    </label>
+    @if (form.controls.title.touched && form.controls.title.invalid) {
+      <p class="error">Title is required (max 200 characters).</p>
+    }
+
+    <label>
+      Description
+      <textarea formControlName="description" rows="3"></textarea>
+    </label>
+
+    <label>
+      Status
+      <select formControlName="status">
+        <option value="TODO">To do</option>
+        <option value="IN_PROGRESS">In progress</option>
+        <option value="DONE">Done</option>
+      </select>
+    </label>
+
+    <label>
+      Priority
+      <select formControlName="priority">
+        <option value="LOW">Low</option>
+        <option value="MEDIUM">Medium</option>
+        <option value="HIGH">High</option>
+      </select>
+    </label>
+
+    <label>
+      Due date
+      <input type="date" formControlName="dueDate" />
+    </label>
+
+    <div class="actions">
+      <button type="submit">Save</button>
+      <a routerLink="/tasks">Cancel</a>
+    </div>
+  </form>
+}

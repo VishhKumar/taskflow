@@ -23,4 +23,9 @@ export class TaskApi {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+
+    get(id: number): Observable<TaskItem> {
+    return this.http.get<TaskItem>(`${this.baseUrl}/${id}`);
+  }
+  
 }

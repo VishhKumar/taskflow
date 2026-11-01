@@ -35,6 +35,7 @@
           · due {{ task.dueDate }}
         }
         @if (task.status !== 'DONE') {
+            <a [routerLink]="['/tasks', task.id, 'edit']">Edit</a>
           <button type="button" (click)="markDone(task)">Done</button>
         }
         <button type="button" (click)="remove(task)">Delete</button>
