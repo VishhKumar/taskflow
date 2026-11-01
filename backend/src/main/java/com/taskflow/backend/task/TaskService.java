@@ -1,4 +1,6 @@
 package com.taskflow.backend.task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +10,7 @@ import java.util.List;
 @Service
 public class TaskService {
 
+    private static final Logger log = LoggerFactory.getLogger(TaskService.class);
     private final TaskRepository taskRepository;
 
     public TaskService(TaskRepository taskRepository) {
@@ -30,7 +33,9 @@ public class TaskService {
     public TaskResponse create(TaskRequest request) {
         Task task = new Task();
         apply(task, request);
-        return TaskResponse.from(taskRepository.save(task));
+        Task saved = taskRepository.save(task);
+        log.info("Created task with id {}", saved.getId());
+        return TaskResponse.from(saved);
     }
 
     @Transactional
@@ -43,6 +48,7 @@ public class TaskService {
     @Transactional
     public void delete(Long id) {
         taskRepository.delete(findOrThrow(id));
+        log.info("Deleted task with id {}", id);
     }
 
     private Task findOrThrow(Long id) {
