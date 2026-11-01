@@ -1,0 +1,44 @@
+<h2>My tasks</h2>
+
+<form [formGroup]="form" (ngSubmit)="add()">
+  <input formControlName="title" placeholder="What needs doing?" />
+  <select formControlName="priority">
+    <option value="LOW">Low</option>
+    <option value="MEDIUM">Medium</option>
+    <option value="HIGH">High</option>
+  </select>
+  <input type="date" formControlName="dueDate" />
+  <button type="submit">Add</button>
+
+  @if (form.controls.title.touched && form.controls.title.invalid) {
+    <p>Title is required (max 200 characters).</p>
+  }
+</form>
+
+@if (actionError()) {
+  <p>{{ actionError() }}</p>
+}
+
+@if (loading()) {
+  <p>Loading…</p>
+} @else if (error()) {
+  <p>{{ error() }}</p>
+} @else if (tasks().length === 0) {
+  <p>No tasks yet.</p>
+} @else {
+  <ul>
+    @for (task of tasks(); track task.id) {
+      <li>
+        <strong>{{ task.title }}</strong>
+        — {{ task.status }} · {{ task.priority }}
+        @if (task.dueDate) {
+          · due {{ task.dueDate }}
+        }
+        @if (task.status !== 'DONE') {
+          <button type="button" (click)="markDone(task)">Done</button>
+        }
+        <button type="button" (click)="remove(task)">Delete</button>
+      </li>
+    }
+  </ul>
+}
